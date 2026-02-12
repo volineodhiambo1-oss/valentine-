@@ -1,12 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Valentine</title>
-  <script>
-    window.location.href = "martha/";
-  </script>
+<meta charset="UTF-8">
+<title>For Martha 💖</title>
+
+<style>
+html,body{
+margin:0;
+height:100%;
+background:black;
+overflow:hidden;
+font-family:Arial, sans-serif;
+cursor:url('https://cur.cursors-4u.net/nature/nat-10/nat970.cur'), auto;
+}
+canvas{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+}
+#box{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+color:white;
+z-index:10;
+}
+h1{font-size:2.5em;}
+button{
+padding:15px 25px;
+font-size:1.2em;
+border:none;
+border-radius:25px;
+margin:10px;
+cursor:pointer;
+}
+#yes{background:#ff4d88;color:white;}
+#no{background:#555;color:white;}
+</style>
 </head>
+
 <body>
+
+<canvas id="stars"></canvas>
+
+<div id="box">
+<h1 id="type"></h1>
+<p>Will you be my Valentine? 💌</p>
+<button id="yes">Yes 🚀</button>
+<button id="no">No 😢</button>
+</div>
+
+<audio id="song">
+<source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Mazzy_Star/So_Tonight_That_I_Might_See/Mazzy_Star_-_Fade_Into_You.mp3">
+</audio>
+
+<script>
+const text = "Martha...";
+let i=0;
+const el=document.getElementById("type");
+setInterval(()=>{
+ if(i<text.length){
+  el.innerHTML+=text[i];
+  i++;
+ }
+},200);
+
+document.getElementById("yes").onclick=()=>{
+ const a=document.getElementById("song");
+ a.play();
+ firework();
+};
+
+document.getElementById("no").onmouseover=e=>{
+ e.target.style.position="absolute";
+ e.target.style.left=Math.random()*80+"%";
+ e.target.style.top=Math.random()*80+"%";
+};
+
+// stars
+const c=document.getElementById("stars"),ctx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+let stars=Array.from({length:150},()=>({
+ x:Math.random()*c.width,
+ y:Math.random()*c.height,
+ r:Math.random()*2
+}));
+function draw(){
+ ctx.clearRect(0,0,c.width,c.height);
+ ctx.fillStyle="white";
+ stars.forEach(s=>{
+  ctx.beginPath();
+  ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+  ctx.fill();
+ });
+ requestAnimationFrame(draw);
+}
+draw();
+
+function firework(){
+ for(let i=0;i<20;i++){
+  let f=document.createElement("div");
+  f.style.position="fixed";
+  f.style.width="6px";
+  f.style.height="6px";
+  f.style.background="pink";
+  f.style.left="50%";
+  f.style.top="50%";
+  document.body.appendChild(f);
+  let x=(Math.random()-0.5)*400;
+  let y=(Math.random()-0.5)*400;
+  f.animate([{transform:"translate(0,0)"},{transform:`translate(${x}px,${y}px)`}],{duration:1000});
+  setTimeout(()=>f.remove(),1000);
+ }
+}
+</script>
 </body>
 </html>
